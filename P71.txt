@@ -1,0 +1,44 @@
+class Solution {
+   public static String simplifyPath(String path) {
+		Stack<String> r = new Stack<String>();       //栈
+		String str = ""; int e = 0;
+		for(int i = 0 ; i < path.length() ; i++)
+		{  if( path.charAt(i) != '/' && path.charAt(i) != '.' )        //是字母
+			{	if( e >= 1)  
+			    {  for(int k = 0 ; k < e ; k++)
+			    	str+=".";
+			        e=0;
+			    }
+			    str+=path.charAt(i);
+				if(  i != path.length()-1 && path.charAt(i+1) != '/' &&  path.charAt(i+1) != '.' )
+					continue;
+				else   { r.add(str);  str="";}
+			}
+	   	    else 
+	   	    {  if( path.charAt(i)=='.')  e++;	   	    
+	   	       else {  if( e > 2 )  
+	   	                 {  for(int k = 0 ; k < e ; k++)
+	   	                	 	str+=".";
+	   	                 	r.add(str); str="";
+	   	                 }
+	   	    	   e = 0;  }
+	   	       if( e == 2 &&  i != path.length()-1 && path.charAt(i+1)=='/' || e == 2 &&  i == path.length()-1 )  
+	   	       {   if(!r.isEmpty())  r.pop();
+	   	                        e=0;  
+	   	                     }              
+	   	    }
+		}
+		if( e >= 2 )  
+	    {  for(int k = 0 ; k < e ; k++)
+	    	str+=".";
+	       r.add(str);
+	    }
+		String st ="";  String t ;
+		if(r.isEmpty())  return "/";
+		while( !r.isEmpty() )
+		{ t = r.pop();
+		  st ="/"+t+st;		
+		}			
+		return st;       
+    }
+}

@@ -1,0 +1,65 @@
+class Solution {
+   public static List<String> fullJustify(String[] words, int maxWidth) {
+		List<String> r = new LinkedList<String>();
+		int [] len = new int [words.length];
+		for(int i = 0  ; i < words.length ; i++)
+			len[i] = words[i].length();
+//		for(int i = 0  ; i < words.length ; i++)
+//			System.out.print(len[i]+" ");	
+		int sum = 0 , count = 0 , ch = 0, fc = 0; String str = "";
+		for( int i = 0 ; i < words.length ; i++)
+			{ sum += len[i];
+			  if( sum >= maxWidth ) 
+			  {   if( sum == maxWidth  )              
+				  {str+=words[i];
+				   r.add(str);
+			       str=""; sum=0; count=0;
+				  }
+			      else  
+			      { i--;
+			    	if( count == 1 )
+			      		{ for(int l = str.length() ; l < maxWidth ; l++)
+			      			str+=" ";  
+			    		  r.add(str); str=""; sum=0; count=0;}
+			        else 
+			         { 
+			           int much = maxWidth - ( sum-len[i+1]-1);   //6  1
+			           int d = much/(count-1);   				  //3  0
+			           int m = much%(count-1);   				  //0  1
+		             //  System.out.println(much +" "+ d +" "+ m + " " );
+			           sum = 0; String st ="";  
+			           ch = fc;
+			           for(int j = 0 ; j < count-1 ; j++)
+			           {   sum += len[ch++]+1;                    //5  11    5  12
+			               //System.out.println(sum);
+			               //if(ch == 11)  System.out.println(sum);
+			               for( int s = 0 ; s < d ; s++)
+			            	  st+=" ";   
+			        	   if(m-- > 0)
+			        		  {st+=" ";sum++;}
+			        	   str = Stringinsert( str , st ,sum-1);
+			        	   st="";
+			        	   sum += d;
+			           }
+			           str = str.substring(0, str.length()-1);
+			           r.add(str); str=""; sum=0; count=0;
+			         }
+			    	  
+			      }
+			  }
+			  else   {str+=words[i];
+			          count++;              //改行单词的个数
+			          if(count == 1)    fc = i; 
+			          str+=" "; sum++;
+			         }
+			}
+		if( count != 0 )
+  		{   for(int l = str.length() ; l < maxWidth ; l++)
+  			  str+=" ";
+			r.add(str); str=""; sum=0; count=0;}
+		return r;
+    }
+	public static String Stringinsert( String a,String b,int t){ 
+		return a.substring(0,t)+b+a.substring(t,a.length());
+		} 
+}
