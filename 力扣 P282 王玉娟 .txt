@@ -1,0 +1,38 @@
+class Solution {
+   public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		List<String> rr = new LinkedList<String>();
+		String num = sr.next();     //105
+		int target = sr.nextInt();  //5
+		 rr = addOperators(num , target);
+		for(int i = 0 ; i < rr.size() ; i++)
+			System.out.println(rr.get(i));
+	}
+	 public static List<String> addOperators(String num, int target) {
+		List<String> rr = new LinkedList<String>();
+		String str = "";
+		fun(  num , target , rr , 0 , 0 , 0 , str );
+		return  rr;					
+	}
+	private static void fun(String num, int target, List<String> rr, int pos , long prev, long curr, String str) {
+		String t = "" ;  long a = 0;
+		if( pos == num.length() )
+			if( curr == target )
+				{ rr.add(str);  str=""; return; }
+		for( int i = 1 ; i <= num.length()-pos ; i++ )
+		   { t = num.substring(pos, pos+i);
+		     if( t.charAt(0)=='0' && t.length()>1 )   return ;
+		     a = Long.valueOf(t);
+		    if( a*prev > Integer.MAX_VALUE )  break;
+		     if( pos==0 )   
+		    	 fun( num , target , rr , pos+i , a , a , str+t);
+		     else 
+		     {  
+		    	 fun( num , target , rr , pos+i , a , curr+a , str+'+'+t);
+		         fun( num , target , rr , pos+i , -a , curr-a , str+'-'+t);
+		         fun( num , target , rr , pos+i , prev*a , curr-prev+prev*a , str+'*'+t);	    	 
+		     }
+		   }
+	
+	}
+}
