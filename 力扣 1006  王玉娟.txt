@@ -1,0 +1,24 @@
+class Solution {
+    public static int clumsy(int N) {
+	int k = 0 , all = 0 ,sum = 0 , mm = 0;
+	for( int i = N ; i>=1 ; i--)
+	{ k++;
+	  if( k%4==1 ) sum = i;
+	  else if( k%4 == 2 )  sum = sum*i;
+	  	   else if(k%4 == 3 )  sum = sum/i;
+	  	        else if(k%4 == 0)
+	  	        	 { mm+=i;
+	  	        	   if(k==4) { all = sum; sum = 0;}
+	  	        	   else all = all-sum;
+	  	        	 }
+	            
+	}
+	all += mm ;
+	if( k % 4 != 0 )
+	{ if( k<4 )  all+= sum;
+	  else all -= sum ;
+		
+	}
+	return all;   
+    }
+}

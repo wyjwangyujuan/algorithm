@@ -1,0 +1,58 @@
+class Solution {
+   public static int slidingPuzzle(int[][] board) {
+		 ArrayList<String> list = new ArrayList<>();
+		 String k =  (board[0][0]+"")+ (board[0][1]+"")+ (board[0][2]+"")+ (board[1][0]+"")+ (board[1][1]+"")+ (board[1][2]+"") ;
+		 list.add( k );
+		 int [][] zo = { {0,1},{0,-1},{1,0},{-1,0} };
+		Queue<Pos> r = new LinkedList<Pos>();
+		int ii=0 , jj=0; 
+		for( int i = 0 ; i < 2 ; i++ )
+			for( int j = 0 ; j < 3 ; j++ )
+				if( board[i][j] == 0 )
+				{ 
+				  ii = i;
+				  jj = j;
+				  break;
+				}		
+		r.add(new Pos(k ,ii , jj , 0));
+		
+		while(!r.isEmpty())
+		{ Pos t = r.poll();
+		  String s = t.s;int x = t.x ; int y = t.y ;   int count = t.count;	  
+		  if( s.equals("123450") ) 
+			return count;
+		  for( int i = 0 ; i < 4 ; i++ )
+		  {			 
+			int xx = x + zo[i][0];
+		    int yy = y + zo[i][1];
+		    if( xx >= 0 && yy >=0 && xx < 2 && yy < 3  )
+		    { char[] kk = s.toCharArray();
+		      kk [x*3+y] = kk[ xx*3+yy];
+		      kk[ xx*3+yy] = '0';
+		      k = new String(kk);
+		      if( !list.contains(k) ) 
+		      { r.add(new Pos( k,xx , yy , t.count+1));
+		        list.add(k);
+		      }
+				
+		    }
+			  
+		  }
+		}
+		return -1;    
+    }
+}
+class Pos {	
+	String s;
+	int x ;
+	int y ;
+	//int dis ;
+	int count ;
+	public Pos(String s ,int x , int y , int count ) {
+		this.s = s ;
+		this.x = x ;
+		this.y = y ;
+		//this.dis = dis ; 
+		this.count = count;
+	}
+}

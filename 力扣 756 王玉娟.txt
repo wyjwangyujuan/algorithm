@@ -1,0 +1,32 @@
+class Solution {
+   public static boolean pyramidTransition(String bottom, List<String> allowed) {
+		if( bottom.length()==1 )   return true;
+		String str = "" ;
+		if( fun ( bottom , str , allowed , 0 ) )  
+			return true ;			
+		return false;
+        
+    }
+	private static boolean fun(String bottom, String str, List<String> allowed , int k ) {
+		for( int i = k ; i < bottom.length()-1 ; i++ )
+		{ String s = bottom.substring(i, i+2) ;
+		 //System.out.println( "s"+ " " +s );
+		  for( int j = 0 ; j < allowed.size() ; j++ )
+		  {  if( ! allowed.get(j).substring(0, 2).equals(s) ) 
+				  { if(j==allowed.size()-1)
+					  return false;
+			        continue;
+				  }
+		    // System.out.println ( allowed.get(j).substring(0, 2)+" "+s );
+		     if ( i == bottom.length()-2 )
+		     {   if( str == "" ) return true;
+		    	 if( fun( str + allowed.get(j).substring(2, 3) , "" , allowed , 0 ) )
+		    		  return true ;
+		     }
+		     else  if(fun( bottom , str + allowed.get(j).substring(2, 3) , allowed ,i+1) )
+				  return true ;
+		  }
+		}
+		return false;
+	}
+}

@@ -1,0 +1,54 @@
+class Solution {
+     public static String decodeString(String s) {
+			String str = "",ans=""; int num = 0;String t ="";
+			Stack<Integer> numm = new Stack<>();
+			Stack<String> ing = new Stack<>();
+			for( int i = 0 ; i < s.length() ; i++ ) 
+			{ if( s.charAt(i) >= '0' && s.charAt(i) <= '9' )
+				{ if( t!="" )
+			    	{int num1 = numm.pop();
+				     String str1 = ing.pop()   ;	 
+				       numm.add(num1);
+				       ing.add(str1+t); 
+				       t = "";
+			    	}
+				 num = num*10 + ( s.charAt(i)-'0' );
+				}
+			  else if( s.charAt(i) == '[' )
+			  		{ for( int j = i+1 ; j < s.length() ; j++ )
+			  			{if( s.charAt(j) >= '0' && s.charAt(j) <= '9' || s.charAt(j) == ']')
+			  				break;
+			  			 else str= str+s.charAt(j);
+			  			 i = j;
+			  			}
+			  		  numm.add(num);  num = 0 ;
+			          ing.add(str);   str = "" ;		   
+			  		}
+			  else if(  s.charAt(i) == ']' )
+		           { //System.out.println("&"+" "+t);
+				     int num1 = numm.pop();
+				     String str1 = ing.pop()   ;
+				     String g = str1 + t;
+				     t = "";
+	 			     for( int k = 0 ; k < num1 ; k++ )
+				    	 t = t+g ;
+				     if( !numm.isEmpty() )
+				     { num1 = numm.pop();
+				       str1 = ing.pop()   ;	 
+				       numm.add(num1);
+				       ing.add(str1+t); 
+				       System.out.println( num1+ " "+str1+t);
+				     }
+				     else ans =  ans + t;
+				     t = "";
+			       }
+			  else {  if( numm.isEmpty() )
+			            ans += s.charAt(i); 
+			          else t = t+s.charAt(i);
+			       }
+			}
+//			for( int i = 0 ; i < numm.size() ; i++ )
+//				System.out.println(numm.get(i) + " "+ ing.get(i));
+			return ans;      
+	    }
+}
