@@ -1,0 +1,35 @@
+class Solution {
+    	public static List<List<Integer>> subsets(int[] nums) {
+		 List<List<Integer>> r = new ArrayList<List<Integer>>(); 
+		 List<Integer> t = new LinkedList<Integer>();
+         r.add(t);
+		 for( int i = 1 ; i <= nums.length ; i++ )         //集合里面有几个数
+		 {   boolean [] b = new boolean [nums.length];
+		     int [] a = new int [i];
+			 fun( nums , i , 0 , a , b , r);			 
+		 }		
+		return r;
+        
+    }
+	private static void fun(int[] nums, int count , int k , int[] a, boolean[] b, List<List<Integer>> r) {
+		if( k == count )
+		{   List<Integer> t = new LinkedList<Integer>();
+			for( int j = 0 ; j < k ; j++ )
+				t.add( a[j] );
+			r.add(t);
+			return;
+		}
+		for( int i = 0 ; i < nums.length ; i++ )
+		{   if( b[i] == false )
+		    { if( k > 0 && nums[i] > a[k-1] || k == 0 )
+		    	{	a[k] = nums[i];
+		    	    b[i] = true ; 
+		    		fun( nums , count , k+1 , a , b , r );
+		    		b[i] = false ;
+		    	} 
+		    }
+			
+		}
+			
+	}
+}

@@ -1,0 +1,30 @@
+class Solution {
+   	 public static  List<List<Integer>> permute(int[] nums) {
+	    List<List<Integer>> r = new ArrayList<List<Integer>>(); 
+	    boolean [] b = new boolean[nums.length];
+	    int [] a = new int [nums.length];
+	    String str = "";
+	    fun( nums , 0, b ,a , r );
+		return r;
+	}
+
+	private static void fun(int[] nums, int k ,boolean [] b ,  int [] a , List<List<Integer>> r) {
+		if( k==nums.length)
+		{ List<Integer> q = new LinkedList<Integer>();
+		  for( int j = 0 ; j < k ; j++ )
+			  q.add(a[j]);
+		  r.add(q);
+		  return;
+		}
+		else
+		for( int i = 0 ; i < nums.length ; i++ )
+		{ if( b[i]==false ) 
+		  { 
+		    b[i] = true;
+		    a[k] = nums[i];
+			fun( nums , k+1 ,b, a, r );
+		    b[i] = false; 
+		  }			
+		}
+	}
+}

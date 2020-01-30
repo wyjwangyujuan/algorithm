@@ -1,0 +1,22 @@
+class Solution {
+     public static List<String> letterCombinations(String digits) {
+        List<String> r = new LinkedList<String>();
+        if( digits.length() == 0 ) return r;
+    	String [] a = { "","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+		String str = "";       //暂时存储的数
+    	fun( a,digits,0,str,r);    //k为digits的位置
+		return r ;       
+    }
+	private static void fun(String[] a, String digits, int k ,String str ,List<String> r) {
+		if( k==digits.length() ) {
+			r.add(str);	
+			return;
+		}
+		int ch = Integer.parseInt( digits.substring(k, k+1));    //2
+		String s = a[ch];      //该数字代表的字符串
+		for( int i = 0 ; i < s.length() ; i++ )
+		{ String t = s.substring(i, i+1);
+		  fun( a , digits , k+1 , str+t , r);
+		}
+	}
+}
