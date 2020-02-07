@@ -1,0 +1,40 @@
+class Solution {
+    public static int numIslands(char[][] grid) {
+       int ans = 0 ;
+       int [][] zo = { {1,0} , {-1,0} , {0,1} , {0,-1} };
+       Queue<Pod> r = new LinkedList<Pod>();
+        int n = grid.length ;
+       if( n == 0 ) return 0;
+       int m = grid[0].length ;
+       for( int i = 0 ; i < n ; i++ )
+    	   for( int j = 0 ; j < m ; j++ )
+    	   { if( grid[i][j] == '1')
+    		   {//System.out.println(ans+" "+9999);
+    		    ans++;
+    		    
+    		    grid[i][j] = '2' ;
+    		    r.add(new Pod(i,j));
+    		    while( !r.isEmpty() )
+    		    { Pod t = r.poll();
+    		      int x = t.x , y = t.y ;
+    		      for( int k = 0 ; k < 4 ; k++)
+    		      { int xx = x+zo[k][0] , yy = y+zo[k][1];
+    		    	if( xx>=0 && xx<n && yy>=0 && yy<m && grid[xx][yy]=='1' ) 
+    		    		{grid[xx][yy] = '2';
+    		    		 r.add(new Pod(xx,yy) );
+    		    		}
+    		      }
+    		    	
+    		    }
+    		   }	   
+    	   }
+	return ans; 
+    }
+}
+class Pod {
+	public Pod(int x, int y) {
+       this.x = x;
+       this.y = y;
+	}
+	int x ; int y ;
+}

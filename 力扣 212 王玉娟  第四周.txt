@@ -1,0 +1,38 @@
+class Solution {
+   static int [][] zo = { {1,0} , {-1,0} , {0,1} , {0,-1} };
+	public static List<String> findWords(char[][] board, String[] words) {
+			List<String> r = new LinkedList<>();
+			int n = board.length , m = board[0].length ;
+			boolean [][] b = new boolean [n][m];	
+			for( int i = 0 ; i < words.length ; i++ )
+				fun( 0 , words[i]  , 0 , 0 , n , m , b , board , words , r );
+			HashSet<String> set = new HashSet<>(r);  
+			 r = new ArrayList<String>(set);
+			return r;
+	    }                 // k是位置 ， count 是第几个字符串
+	private static void fun(int k, String wordss, int x , int y , int n, int m, boolean[][] b, char[][] board, String[] words, List<String> r ) {
+		
+	    if( k == wordss.length() )
+	    { r.add( wordss);
+	      return;
+	    }
+		if( k==0 )  
+			for( int i = 0 ; i < n ; i++ )
+				{for( int j = 0 ; j < m ; j++ )
+					if( board[i][j] == wordss.charAt(0) )
+						{ b[i][j] = true ; 
+						  fun( k+1 , wordss , i , j , n , m , b , board ,words  , r);
+						  b[i][j] = false ;
+						}
+				}
+		else for( int i = 0 ; i < 4 ; i++ )
+			{ int xx = x+zo[i][0] , yy = y+zo[i][1];
+			  if( xx>=0 && xx<n && yy>=0 && yy<m && board[xx][yy]==wordss.charAt(k) && b[xx][yy]==false)
+			  { b[xx][yy] = true ;
+			    fun( k+1 , wordss , xx , yy , n , m , b , board ,words  , r );
+			    b[xx][yy] = false ;
+			  }
+			}
+			
+	}
+}

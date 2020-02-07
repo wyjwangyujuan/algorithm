@@ -1,0 +1,37 @@
+class Solution {
+    	public static List<List<String>> solveNQueens(int n) {
+		List<List<String>> r = new LinkedList<List<String>>();
+		boolean [] lie = new boolean [n];
+		boolean [] left = new boolean [2*n];  //   /
+		boolean [] right = new boolean [2*n]; //   \
+		int [] a = new int [n];
+		fun( n, lie , left , right , r , a, 0);   //k为第几行
+		return r;
+    }
+	private static void fun(int n ,boolean[] lie, boolean[] left, boolean[] right, List<List<String>> r, int [] a, int k) {
+		if( k == n ) {
+			List<String> str1 = new LinkedList<String>();			
+			for( int j = 0 ; j < n ; j++ )
+			{ String str = "" ;
+			  for( int h = 0 ; h < n ; h++ )
+				  if( h == a[j] )
+					  str += "Q" ;
+				  else str += "." ;
+			  str1.add( str );
+			}
+			r.add(str1)	;
+//			 for( int h = 0 ; h < n ; h++ )
+//				 System.out.print(a[h]);
+//			 System.out.println();
+			return ;
+		}
+		for( int i = 0 ; i < n ; i++ )
+		{ if( lie[i] == false && left[k+i] == false && right[k-i+n] == false)
+		   { lie[i] = true ; left[k+i] = true ;right[k-i+n] = true ;
+		     a[k] = i ;
+			 fun( n , lie , left , right , r , a , k+1 );
+			 lie[i] = false ; left[k+i] = false ; right[k-i+n] = false ;
+		   }
+		}
+	}
+}

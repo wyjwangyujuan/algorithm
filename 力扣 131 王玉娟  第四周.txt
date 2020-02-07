@@ -1,0 +1,35 @@
+class Solution {
+     public static List<List<String>> partition(String s) {
+		List<List<String>> r = new LinkedList<List<String>>();
+		String [] str = new String[s.length()];
+		fun( 0 ,0 , s , str , r );
+		return r;
+    }
+	private static void fun(int dis, int k, String s, String [] str , List<List<String>> r) {
+		if( dis == s.length() )
+		{  List<String> tt = new LinkedList<>();
+		   for( int j = 0 ; j < k ; j++ )
+			 tt.add(str[j]);
+		   r.add(tt);
+		}
+		for( int i = 1 ; i <= s.length() ; i++ )
+		{ if( dis+i > s.length() ) break;
+		  String t = s.substring(dis, dis+i);
+		  if( huiwen(t) )  
+			 {str[k] = t ;
+			  fun( dis+i , k+1 , s , str , r );
+			 }
+		}
+	}
+	private static boolean huiwen(String t) {
+		int left = 0 , right = t.length()-1 ;
+		while( left <= right )
+		{ if( t.charAt(left) != t.charAt(right) )
+			break;
+		  left++ ;
+		  right-- ;
+		}
+		if( left > right )   return true ;
+		return false;
+	}
+}

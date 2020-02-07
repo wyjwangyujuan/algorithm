@@ -1,0 +1,34 @@
+class Solution {
+  private static int max;
+	public static int getMaximumGold(int[][] grid) {
+        max = 0 ;
+		int [][] zo = { {1,0} , {-1,0} , {0,1} , {0,-1} };
+	    int  ch = 0; 
+		int n = grid.length , m = grid[0].length;
+		boolean [][] b = new boolean[n][m];
+		for( int i = 0 ; i < n ; i++ )
+			for( int j = 0 ; j < m ; j++ )
+			{ if( grid[i][j] != 0 )
+				{b[i][j] = true ;
+				 ch = fun( i , j , grid[i][j] ,  n , m , b , grid , zo);
+				 b[i][j] = false;
+				 max = ch > max ? ch : max ;
+				}
+			}
+		return max;
+        
+    }
+	private static int fun(int x, int y, int sum, int n , int m , boolean [][] b , int[][] grid , int [][] zo ) {
+        max = Math.max(max,sum);
+		for( int i = 0 ; i < 4 ; i++ )
+		{ int xx = x+zo[i][0] ;
+		  int yy = y+zo[i][1] ;
+		  if( xx >= 0 && xx < n && yy >= 0 && yy < m && grid[xx][yy] != 0 && b[xx][yy] == false )
+		  {	  b[xx][yy] = true ;
+			  fun( xx , yy , sum+grid[xx][yy] , n , m , b, grid , zo );
+			  b[xx][yy] = false ;
+		  }
+		}
+		return max;
+	}
+}
