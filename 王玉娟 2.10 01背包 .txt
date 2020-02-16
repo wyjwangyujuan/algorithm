@@ -1,0 +1,27 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		int N = sr.nextInt() , V = sr.nextInt() ; //有 N 件物品和一个容量是 V 的背包
+		int [][] a = new int [N+1][V+1] ;
+		int [] t = new int [N+1] ;
+		int [] v = new int [N+1] ;
+		for( int i = 1 ; i <= N ; i++ )
+		{ t[i] = sr.nextInt() ;
+		  v[i] = sr.nextInt() ;        //第 i 件物品的体积和价值
+		}
+		for( int i = 1 ; i <= N ; i++ )
+			for( int j = 1 ; j <= V ; j++ )
+			{ if( j < t[i] )
+				a[i][j] = a[i-1][j] ;
+			  else {
+				int v1 = a[i-1][j-t[i]] + v[i] ;  //拿
+				int v2 = a[i-1][j] ;			  //不拿
+				a[i][j] = v1 > v2 ? v1 : v2 ;
+			  }				
+			}
+		System.out.println(a[N][V]);
+	}
+
+}
