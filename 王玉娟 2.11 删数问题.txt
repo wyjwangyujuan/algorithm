@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int K = sr.nextInt(), M = sr.nextInt(); // 集合中最小的K个元素 , 删除M个数
+		int c = 0;
+		StringBuffer s = new StringBuffer();
+		PriorityQueue<Integer> r = new PriorityQueue<>();
+		r.add(1);
+		while (c != K && !r.isEmpty()) {
+			int p = r.poll();
+			s.append(p);
+			r.add(2 * p + 1);
+			r.add(4 * p + 5);
+			c++;
+		}
+		out.println(s);
+		int len = s.length(), max;
+		StringBuffer str = new StringBuffer();// 6
+		M = len - M; // 获取M个数 2
+		c = 0; // 起始搜索位置
+
+		int[] ss = new int[len];          //将字符串s转化为整型数组ss
+		for (int i = 0; i < len; i++)
+			ss[i] = s.charAt(i) - '0';
+
+		while (M != 0) {                           //当不用再取数时停止
+			max = 0;
+			for (int i = c; i <= len - M; i++) {
+				if (ss[i] > max) {
+					max = ss[i];
+					c = i + 1;
+				}
+			}
+			str.append(max);
+			M--;                                
+		}
+		out.println(str);
+		out.flush();
+	}
+
+}

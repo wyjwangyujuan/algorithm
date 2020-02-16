@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		int N = sr.nextInt() , V = sr.nextInt() ;
+		int [] f = new int [V+1] ;
+		for( int i = 1 ; i <= N ; i++ )
+		{ int v = sr.nextInt() ;   //体积
+		  int w = sr.nextInt() ;   //价值
+		  int s = sr.nextInt() ;   //数量
+		  if( s == -1 )    //第 i 种物品只能用1次
+			  for( int j = V ; j >= 1 ; j-- )
+			     { if( j >= v )  
+			         f[j] = f[j-v]+w > f[j] ? f[j-v]+w : f[j] ;
+			     }
+		  else if ( s == 0 )    //第 i 种物品可以用无限次
+			  		for ( int j = v ; j <= V ; j++ )
+			  			f[j] = f[j-v]+w > f[j] ? f[j-v]+w : f[j] ;
+			   else    //第 i 种物品可以使用 s 次
+			   {  for( int j = V ; j >= 1 ; j-- )
+				    for( int k = 1 ; k <= s && k*v <= j ; k++)
+				    	f[j] = f[j-k*v]+k*w > f[j] ? f[j-k*v]+k*w : f[j] ;
+			   }		  				
+		}
+		System.out.println(f[V]);
+	}
+
+}

@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+static int [] path ;
+static StreamTokenizer st = new StreamTokenizer( new BufferedReader(new InputStreamReader(System.in)));
+	public static void main(String[] args) {
+		int N = nextInt() , M = nextInt() ;    //村庄数 N，公路数M  (两个顶点之间有路径即连通，N-1条就够了)
+		path = new int [N+1] ;      //i为起点,path[i]为终点
+		ps [] a = new ps [M];
+		for( int i = 0 ; i < M ; i++ )
+		   a[i] = new ps ( nextInt() , nextInt() , nextInt() );
+		Comparator<ps> c = new Comparator<ps>() {		  //按时间排序
+			@Override
+			public int compare(ps o1, ps o2) {
+				// TODO Auto-generated method stub
+				return o1.t - o2.t ;
+			}
+		}; 
+		Arrays.sort(a, c);		//按时间排序		
+//		for( int i = 0 ; i < M ; i++ )
+//			System.out.println(a[i].x +"  "+a[i].y +" "+a[i].t );
+		for( int i = 0 ; i < M ; i++ )
+		{ int x = fun( a[i].x ) , y = fun( a[i].y ); 
+		  if( x != y )  { N--;  path[x] = y ;     }//一条线路
+		  if( N == 1 )      //已有N-1条线路
+		  {  System.out.println( a[i].t );
+			 return ;
+		  }
+		}
+		System.out.println(-1);
+	}
+
+	private static int nextInt() {
+		try {
+			st.nextToken();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (int) st.nval;
+	}
+
+	private static int fun(int x) {
+		int ch = path[x] == 0 ? x : fun( path[x] ) ;
+	return ch;
+	}
+
+}
+class ps {
+	int x ; int y ; int t ;
+	public ps(int x, int y, int t) {
+		this.x = x ;
+		this.y = y ;
+		this.t = t ;
+	}
+}

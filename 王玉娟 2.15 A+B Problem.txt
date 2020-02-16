@@ -1,0 +1,28 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		String s = sr.next() ;
+		String b = sr.next() ;
+		int k=0 ; String ans = "" ; String p ;
+		if( s.length() < b.length() )
+		  { p = s ; s = b ; b = p ; }
+		int lens = s.length() , lenb = b.length() ;
+		for( int i = 1 ; i <= lens-lenb ; i++ )
+			b = "0" + b ;
+		//System.out.println( s +" "+b +" ");		
+		for( int i = 1 ; i <= lens ; i++ )
+		{ int ch = ( s.charAt( lens - i )-'0' ) + ( b.charAt( lens - i )-'0' ) + k ;
+		  k = 0 ;
+		  if( ch >= 10 )
+		     { ch = ch % 10 ; k = 1 ; }
+		  String chh = ch +"" ;
+		  ans = chh + ans ;
+		}
+		if( k == 1 ) 
+			ans = "1"+ans ;
+		System.out.println(ans);
+	}
+
+}

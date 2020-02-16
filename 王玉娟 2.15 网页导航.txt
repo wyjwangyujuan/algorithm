@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include <stack>
+ 
+using namespace std;
+ 
+int main()
+{
+    int n;
+ 
+    cin >> n;
+    while(n--) {
+        stack<string> ss, st;
+        string cmd, url;
+ 
+        ss.push("http://www.acm.org/");
+ 
+        while(cin >> cmd) {
+            if(cmd[0] == 'Q')           // QUIT
+                break;
+            else if(cmd[0] == 'V') {     // VISIT
+                cin >> url;
+                ss.push(url);
+                cout << url << endl;
+ 
+                // 清空：一旦输入一个新的URL，就不能再做FORWARD了
+                while(!st.empty())
+                    st.pop();
+            } else if(cmd[0] == 'B') {  // BACK
+                if(ss.size() > 1) {
+                    st.push(ss.top());
+                    ss.pop();
+                    cout << ss.top() << endl;
+                } else
+                    cout << "Ignored" << endl;
+            } else if(cmd[0] == 'F') {  // FORWARD
+                if(!st.empty()) {
+                    ss.push(st.top());
+                    cout << st.top() << endl;
+                    st.pop();
+                } else
+                    cout << "Ignored" << endl;
+            }
+        }
+ 
+        if(n)
+            cout << endl;
+    }
+ 
+    return 0;
+}

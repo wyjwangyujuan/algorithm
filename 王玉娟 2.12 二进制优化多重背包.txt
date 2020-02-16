@@ -1,0 +1,39 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		int N = sr.nextInt() , V = sr.nextInt() ;   //物品种数和背包容积
+		int [] v = new int [10001] ;   //体积       
+		int [] w = new int [10001] ;   //价值
+		int k , p = 0 ;    //k数量 ,p种数
+		for( int i = 1 ; i <= N ; i++ )
+		{ k = 1 ;
+		  int vv = sr.nextInt() ;
+		  int ww = sr.nextInt() ;
+		  int ss = sr.nextInt() ;
+		  while( k <= ss )
+		  { v[++p] = k*vv ;
+			w[p] = k*ww ; 
+			ss -= k ;
+			k *= 2 ;
+		  }
+		  if( ss != 0 )
+		  { v[++p] = ss*vv ;
+			w[p] = ss*ww ; 			  
+		  }
+		}
+		int [][] f = new int [p+1][V+1] ;  int v1 ;
+		for( int i = 1 ; i <= p ; i++ )
+			for( int j = 1 ; j <= V ; j++ )
+			{ if( j < v[i] )  f[i][j] = f[i-1][j] ;
+		   	  else 
+		   	  {   
+		   		 v1 = f[i-1][j-v[i]] + w[i] ; 
+				 f[i][j] = v1 > f[i-1][j] ? v1 : f[i-1][j] ;
+		   	  }
+			}
+		System.out.println(f[p][V]);
+	}
+
+}

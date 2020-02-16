@@ -1,0 +1,47 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		int n = sr.nextInt() ;     //有n根木棍
+		ps [] a = new ps [n] ; 
+		for( int i = 0 ; i < n ; i++ )
+			a[i] = new ps() ;
+		for( int i = 0 ; i < n ; i++ )		
+			a[i] = new ps( sr.nextInt() , sr.nextInt() );
+		Comparator<ps> c = new Comparator<ps>() {		
+			@Override
+			public int compare(ps o1, ps o2) {
+				if( o2.h == o1.h )
+				   return o2.w - o1.w ;
+				return o2.h - o1.h ;
+			}
+		};  Arrays.sort(a, c);
+		int ch , time = 0 ;
+		boolean [] b = new boolean [n] ;
+		for( int i = 0 ; i < n ; i++ )
+		{ ch = a[i].w ;
+		  if( b[i] == false )             //未被处理
+		  { for( int j = i+1 ; j < n ; j++ )
+			  if( a[j].w <= ch && b[j] == false )
+			     {b[j] = true ; 
+			      ch = a[j].w ;
+			     }
+			time++;
+		  }
+		}
+		System.out.println(time);
+	}
+
+}
+class ps{
+	int h ;
+	int w ;
+	public ps(int h, int w) {
+		this.h = h ;
+		this.w = w ;
+	}
+	public ps() {
+		// TODO Auto-generated constructor stub
+	}
+}

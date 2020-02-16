@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+static StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+	public static void main(String[] args) {
+		//Scanner sr = new Scanner(System.in);
+		int T = nextInt() ; 
+		int M = nextInt() ; 
+		int [] a = new int[T+1];
+		int [] t = new int [M+1];   
+		int [] v = new int [M+1];   
+		for( int i = 1 ; i <= M ; i++ )
+		{ t[i] = nextInt();
+	   	  v[i] = nextInt();
+		}
+		for( int i = 1 ; i <= M ; i++ )
+			for( int j = t[i] ; j <= T ; j++ )  
+			 a[j] = a[j] > a[j-t[i]]+v[i] ? a[j] : a[j-t[i]]+v[i];    
+			
+		System.out.println(a[T]);
+	}
+	private static int nextInt() {
+		try {
+			st.nextToken();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (int) st.nval;
+	}
+
+}

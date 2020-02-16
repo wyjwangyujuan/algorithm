@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+static	BufferedReader st = new BufferedReader(new InputStreamReader(System.in));	
+//90 103 99 83 102 70 86 70 99 71       5 3
+        public static void main(String[] args) {
+        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+		String [] s = nextLine().split(" ");
+		int n = s.length , max = 0 , min = 0 , count = 0;
+		int [] a = new int [n] ;
+		int [] f1 = new int [n] ;          //绘制一条从大到小最长的线
+		int [] f2 = new int [n] ;
+		for( int i = 0 ; i < n ; i++ )
+			a[i] = Integer.parseInt(s[i]) ;
+		f1[0] = a[0] ;
+		for( int i = 1 ; i < n ; i++ )
+		{ if( a[i] <= f1[count] )
+			f1[++count] = a[i] ;
+		  else 
+			f1[ fun1( a[i] , f1 , 0 , count ) ] = a[i] ;
+		}	
+		out.println(count+1);  		out.flush();
+//		for( int i = 0 ;  i <= count ; i++ )
+//			System.out.print(f1[i]+" ");
+		count = 0 ;
+		f2[0] = a[0] ;
+		for( int i = 1 ; i < n ; i++ )
+		{ if( a[i] > f2[count] )         //拦不住
+			f2[++count] = a[i] ;
+		  else 
+			f2[ fun(a[i] , f2 , count) ] = a[i] ;
+		}
+		out.println(count+1);  		out.flush();
+//		for( int i = 0 ;  i <= count ; i++ )
+//			System.out.print(f2[i]+" ");
+    }
+    
+	private static int fun(int ch , int[] f2,  int right) {
+			for( int i = 0 ; i <= right ; i++ )
+				if( ch <= f2[i] )				   
+				{   f2[i] = ch ;
+					return i;	
+				}
+			return 0;
+		}
+
+	private static int fun1(int ch , int[] f1, int left, int right) {
+		int mid ;
+		while(left < right){
+		    mid =(left+right)/2;
+			if(f1[mid]>=ch) left = mid + 1;
+			else right = mid ;
+		}
+		return left;
+	}
+
+
+
+	private static String nextLine() {
+		try {
+			return st.readLine() ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     	return "";
+	}
+
+}
