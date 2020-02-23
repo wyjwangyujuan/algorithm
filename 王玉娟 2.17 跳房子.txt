@@ -1,0 +1,42 @@
+import java.util.*;
+public class Main {
+static int [] a = new int [6] ;
+static int [][] map ;
+static List<String> r ;
+static int [][] zo = { {0,1},{0,-1},{1,0},{-1,0} };
+	public static void main(String[] args)  {
+		Scanner sr = new Scanner(System.in);
+		map = new int [5][5] ;
+		r = new LinkedList<String>();
+		for( int i = 0 ; i < 5 ; i++ )
+			for( int j = 0 ; j < 5 ; j++ )
+				map[i][j] = sr.nextInt() ;
+		for( int i = 0 ; i < 5 ; i++ )
+			for( int j = 0 ; j < 5 ; j++ )
+				 {a[0] = map[i][j] ;
+				 fun( i , j , 1 ) ;
+				 }
+		System.out.println(r.size());
+//		for( int i = 0 ; i < r.size() ; i++ )
+//			System.out.println(r.get(i));
+		
+	}
+	private static void fun(int x, int y, int k) {
+		if( k == 6 )
+		{ String s = "";
+		  for( int i = 0 ; i < 6 ;i++ )
+			s = s + ( a[i]+"") ;
+		  if( !r.contains(s) )
+			  r.add(s) ;
+		  return ;
+		}
+		for( int i = 0 ; i < 4 ; i++ )
+		{  int xx = x + zo[i][0] , yy = y + zo[i][1] ;
+		   if( xx >= 0 && xx < 5 && yy >= 0 && yy < 5 )
+			{   a[k] = map[xx][yy] ;
+			    fun( xx , yy , k+1 ) ;
+			}
+		}
+	
+	}
+}

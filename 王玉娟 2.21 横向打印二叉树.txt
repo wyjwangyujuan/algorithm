@@ -1,0 +1,90 @@
+import java.util.*;
+public class Main {
+static tree root , p  ;
+//5 10 20 8 4 7
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		String [] s = sr.nextLine().split(" ") ;
+		root = new tree() ;
+		root.data = Integer.parseInt(s[0]) ; root.left = null ; root.right = null ;
+		for(int i = 1 ; i < s.length ; i++ )
+			{ p = root ;  int x = Integer.parseInt(s[i]) ;
+			  while( true ) 
+			  {  
+				if( x < p.data )          //比它小，放在左边
+			     { if( p.left == null )
+			     	{ p.left = new tree() ;
+     			      p.left.data = x ;   p.left.left = null ; p.left.right = null ; 
+     			      p.left.father = p ;
+			          p.left.s = fun( p.left ) ;
+     			      break ;
+			     	}
+			       else p = p.left ;
+			     }
+			    else                      //比它大，放在左边	
+			     { if( p.right == null )
+			        { p.right = new tree() ;
+			          p.right.data = x ;  p.right.left = null ; p.right.right = null ; 
+			          p.right.father = p ;
+			          p.right.s = fun( p.right ) ;
+			          break ;
+			        }
+			     else p = p.right ;
+			     }		
+				
+			  }		
+			}
+		 p = root ;
+		show(p) ;	
+	}
+	
+	
+	private static String fun(tree temp ) {      //求temp.s
+		String s = temp.father.s ;	
+		if( pd ( temp ) )            
+		{ 
+		  s += ".." ;           // |-	 		  
+		}
+		else {
+			if( temp.father.father != null )    //该结点父结点的父结点存在
+				s += "|." ;
+		}
+		for( int i = 0 ; i < Integer.toString(temp.father.data).length() ; i++ )
+			s += "." ;
+		s+='.' ; 	     // -
+		return s;
+	}
+	
+	
+	private static boolean pd(tree temp) {    //是否为特殊条件。判断条件为该结点父结点的父结点存在，
+//  且该父节点的左孩子的左孩子或者右孩子的右孩子为当前结点时，“|”位置替换为“.”其他情况下“|”的位置不变  
+	if( temp.father.father != null &&  temp.father.father.right != null )  
+		if( temp.father.father.right.right != null && temp.father.father.right.right.data == temp.data )
+			return true ;
+	if( temp.father.father != null &&  temp.father.father.left != null )  
+		if( temp.father.father.left.left != null && temp.father.father.left.left.data == temp.data )
+			return true ;
+	return false;
+	}
+	
+	static void show ( tree p )
+	{  if( p == null )
+	     return ;
+	   show( p.right ) ;
+	   if( p.data == root.data )
+		   System.out.println( p.data +"-|");
+	   else if( p.left == null && p.right == null )
+		        System.out.println( p.s + "|-"+ p.data );
+	        else
+	        	System.out.println( p.s + "|-"+ p.data + "-|");
+	   show( p.left ) ;
+	}
+
+}
+class tree {
+	String s = "" ;
+	int data ;
+	tree left ;
+	tree right ;
+	tree father ;
+}

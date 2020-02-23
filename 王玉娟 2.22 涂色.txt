@@ -1,0 +1,37 @@
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sr = new Scanner(System.in);
+		String [] ss = sr.next().split("") ;		
+		int n = ss.length ;      //5
+		String [] s = new String[ n+1 ] ;
+		for( int i = 0 ; i < n ; i++ )
+			{s[i+1] = ss[i] ;
+			 //System.out.println(s[i+1]);
+			}
+
+		int [][] a = new int [n+1][n+1] ;
+		for( int i = 1 ; i <= n ; i++ )
+			for( int j = 1 ; j <= n ; j++ )
+			{
+				if( i == j )  a[i][j] = 1 ;        //只填一个格子，一次就可以了 
+				else a[i][j] = Integer.MAX_VALUE ;
+			}
+		
+		for( int r = 1 ; r < n ; r++ )         // i 到 j 的 间隔
+			for( int i = 1 ; i < n ; i++ )
+			{
+				int j = i + r ;
+				if( j > n )    break ;         //超出范围
+				if( s[i].equals(s[j]) )     // 两个字符相等
+					a[i][j] = a[i+1][j] < a[i][j-1] ? a[i+1][j] : a[i][j-1] ;
+				else
+				   for( int k = i ; k < j ; k++ )
+					   a[i][j] = a[i][k] + a[k+1][j] < a[i][j] ? a[i][k] + a[k+1][j] : a[i][j] ;				   
+			}
+		
+		System.out.println(a[1][n]);
+	}
+
+}

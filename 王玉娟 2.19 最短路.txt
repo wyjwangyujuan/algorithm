@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+	public static void main(String[] args) throws IOException {
+		StreamTokenizer in =new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();int n=(int)in.nval;
+		in.nextToken();int m=(int)in.nval; //n个顶点，m条边 
+		List<xi> r[] = new ArrayList [n+1];   //保存点1~n 到其他可行点 及 距离
+		for( int i = 1 ; i <= n ; i++ )        
+			r[i] = new ArrayList<>();
+		int [] a = new int [n+1] ;          //保存最优
+		for( int i = 2 ; i <= n ; i++ )
+			a[i] = Integer.MAX_VALUE ;
+		boolean [] b = new boolean[n+1] ;      //是否去过队列中
+		Queue<Integer> queue = new LinkedList<Integer>();
+		for( int i = 1 ; i <= m ; i++ )
+		{  in.nextToken();int u=(int)in.nval;
+		   in.nextToken();int v=(int)in.nval;
+		   in.nextToken();int l=(int)in.nval;
+		   r[u].add( new xi( v,l )) ;
+		}
+//		for( int i = 1 ; i <= n ; i++ )
+//		{  for( int j = 0 ; j < r[i].size() ; j++ )
+//			System.out.println(r[i].get(j).v +" "+r[i].get(j).l);		
+//		}
+		queue.add(1) ;  b[1] = true ;
+		while( !queue.isEmpty() )
+		{ int u = queue.poll() ;
+	      b[u] = false ;             //已经走过了
+		  for( int k = 0 ; k < r[u].size() ; k++ )
+		  {  int v = r[u].get(k).v ;
+			 int l = r[u].get(k).l ;
+			 if( a[u] + l < a[v] )
+		     {  a[v] = a[u] + l ;
+			    if( b[v] == false )
+				 queue.add(v) ;
+			    b[v] = true ;
+		     }
+		  }
+			
+		}
+		for( int i = 2 ; i <= n ; i++ )
+				out.println(a[i]);	
+		out.flush();
+	}
+	
+}
+class xi {
+	int v ;
+	int l ;
+	public xi(int v, int l) {
+		this.v = v ;
+		this.l = l ;
+	}
+}

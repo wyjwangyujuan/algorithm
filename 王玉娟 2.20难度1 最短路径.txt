@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in))) ;
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out)) ;
+        in.nextToken();  int n = (int) in.nval ;  //点的个数
+        in.nextToken();  int m = (int) in.nval ;  //有向边的个数
+        in.nextToken();  int s = (int) in.nval ;  //出发点的编号  
+        int [] a = new int [n+1] ;
+        for( int i = 1 ; i <= n ; i++ )
+        	if( i != s )       a[i] = Integer.MAX_VALUE ;
+        
+        boolean [] b = new boolean [n+1] ;       //是否在队列中
+        
+        List<hh> r[] = new LinkedList [n+1] ;
+        for( int i = 1 ; i <= n ; i++ )
+        	r[i] = new LinkedList<hh>();         //申请空间
+        	
+        for( int i = 1 ; i <= m ; i++ )
+        {  in.nextToken() ;  int u = (int) in.nval ;
+           in.nextToken() ;  int v = (int) in.nval ;
+           in.nextToken() ;  int l = (int) in.nval ;
+           r[u].add( new hh(v,l) ) ;                    //存
+        }
+        
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(s) ;    
+        while( !q.isEmpty() )
+        {
+        	int uu = q.poll() ;
+         	b[uu] = false ;        //取出后不在队列中了
+        	for( int i = 0 ; i < r[uu].size() ; i++ )
+        	{
+        		int vv = r[uu].get(i).v ;
+        		int ll = r[uu].get(i).l ;
+        		if( a[uu] + ll < a[vv] )
+        		{  a[vv] = a[uu] + ll ;
+        		   if( b[vv] == false )
+        		   { q.add(vv) ;
+        		     b[vv] = true ; 
+                   }
+        		}
+        		
+        	}
+        }
+        for( int i = 1 ; i <= n ; i++ )
+        {
+        	if( i == s )
+        		out.print( 0 + " ");
+        	else out.print( a[i] + " ");
+        }
+        out.flush();
+	}
+
+}
+class hh {
+	int v ;
+	int l ;
+	public hh(int v, int l) {
+		this.v = v ;
+		this.l = l ;
+	}
+}
